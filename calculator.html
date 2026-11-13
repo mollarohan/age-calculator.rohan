@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Free Age Calculator. Find your exact age in years, months and days, total days lived, and your next birthday countdown.">
+  <title>Age Calculator – Calculate Your Exact Age</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="calculator.css">
+</head>
+
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-cake-candles"></i></span>
+        <span class="logo-text">Age Calculator</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false"
+        aria-controls="mainNav">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO + CALCULATOR ============ -->
+    <section class="hero" id="home">
+      <div class="container">
+        <h1>Calculate Your <span>Exact Age</span></h1>
+        <p class="hero-sub">Find your age in years, months and days, see how long you have lived, and count down to your
+          next birthday.</p>
+      </div>
+    </section>
+
+    <section class="container calc-wrapper">
+      <div class="calc-card">
+        <form id="ageForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="dob"><i class="fa-solid fa-cake-candles"></i> Date of Birth</label>
+              <input type="date" id="dob" name="dob" required>
+            </div>
+
+            <div class="field">
+              <label for="refDate"><i class="fa-solid fa-calendar-day"></i> Calculate Age As Of</label>
+              <div class="input-with-btn">
+                <input type="date" id="refDate" name="refDate" required>
+                <button type="button" class="btn btn-light" id="todayBtn" title="Set to today's date">Today</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field leap-field">
+            <label for="leapRule"><i class="fa-solid fa-circle-info"></i> February 29 birthday in non-leap years</label>
+            <select id="leapRule">
+              <option value="feb28">Celebrate on February 28</option>
+              <option value="mar1">Celebrate on March 1</option>
+            </select>
+          </div>
+
+          <p class="form-error" id="errorMsg" role="alert" hidden></p>
+
+          <div class="btn-row">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-calculator"></i> Calculate Age</button>
+            <button type="button" class="btn btn-outline" id="resetBtn"><i class="fa-solid fa-rotate-left"></i>
+              Reset</button>
+          </div>
+        </form>
+
+        <p class="privacy-note">
+          <i class="fa-solid fa-shield-halved"></i>
+          Your privacy matters. All age calculations happen directly in your browser. Your personal information is never
+          uploaded or stored.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section class="container results" id="results" hidden>
+      <div class="print-header">
+        <h2>Age Calculator – Result</h2>
+        <p>Generated from your calculation</p>
+      </div>
+
+      <div class="main-result">
+        <p class="main-result-label"><i class="fa-solid fa-star"></i> Your Exact Age</p>
+        <p class="main-result-value" id="exactAge">–</p>
+        <p class="main-result-sub" id="asOfLabel">–</p>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="stat-value" id="statYears">0</div>
+          <div class="stat-label">Years</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-calendar"></i></div>
+          <div class="stat-value" id="statMonths">0</div>
+          <div class="stat-label">Months</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-sun"></i></div>
+          <div class="stat-value" id="statDays">0</div>
+          <div class="stat-label">Days</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <div class="stat-value" id="statTotalMonths">0</div>
+          <div class="stat-label">Total Months Lived</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-calendar-week"></i></div>
+          <div class="stat-value" id="statTotalWeeks">0</div>
+          <div class="stat-label">Total Weeks Lived</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-sun-plant-wilt"></i></div>
+          <div class="stat-value" id="statTotalDays">0</div>
+          <div class="stat-label">Total Days Lived</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="stat-value" id="statTotalHours">0</div>
+          <div class="stat-label">Total Hours Lived</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-stopwatch"></i></div>
+          <div class="stat-value" id="statTotalMinutes">0</div>
+          <div class="stat-label">Total Minutes Lived</div>
+        </article>
+      </div>
+
+      <div class="two-col">
+        <!-- Next birthday -->
+        <section class="info-card next-birthday">
+          <h3><i class="fa-solid fa-gift"></i> Your Next Birthday</h3>
+          <p class="nb-date" id="nbDate">–</p>
+          <p class="nb-weekday" id="nbWeekday">–</p>
+          <p class="nb-turning" id="nbTurning">–</p>
+          <p class="nb-remaining" id="nbRemaining">–</p>
+          <ul class="info-list">
+            <li><span>Current Age</span><strong id="nbCurrentAge">–</strong></li>
+            <li><span>Age Turning On Next Birthday</span><strong id="nbTurningAge">–</strong></li>
+            <li><span>Remaining Days</span><strong id="nbDays">–</strong></li>
+            <li><span>Remaining Months and Days</span><strong id="nbMonthsDays">–</strong></li>
+          </ul>
+        </section>
+
+        <!-- Additional info -->
+        <section class="info-card">
+          <h3><i class="fa-solid fa-circle-info"></i> Additional Information</h3>
+          <ul class="info-list">
+            <li><span>Day of the Week You Were Born</span><strong id="infoWeekday">–</strong></li>
+            <li><span>Birth Month</span><strong id="infoMonth">–</strong></li>
+            <li><span>Birth Year</span><strong id="infoYear">–</strong></li>
+            <li><span>Total Calendar Months</span><strong id="infoCalMonths">–</strong></li>
+            <li><span>Total Weeks</span><strong id="infoWeeks">–</strong></li>
+            <li><span>Total Days</span><strong id="infoDays">–</strong></li>
+          </ul>
+          <div class="fun-box">
+            <span class="fun-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Just for fun</span>
+            <p>Western Zodiac Sign: <strong id="infoZodiac">–</strong></p>
+            <small>Zodiac signs are entertainment only. They are not part of the age calculation.</small>
+          </div>
+        </section>
+      </div>
+
+      <div class="btn-row result-actions">
+        <button type="button" class="btn btn-primary" id="copyBtn"><i class="fa-solid fa-copy"></i> Copy Result</button>
+        <button type="button" class="btn btn-outline" id="printBtn"><i class="fa-solid fa-print"></i> Print
+          Result</button>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub">Get your exact age in three simple steps.</p>
+        <div class="steps">
+          <article class="step">
+            <div class="step-icon"><i class="fa-solid fa-cake-candles"></i></div>
+            <span class="step-number">Step 1</span>
+            <h3>Enter your Date of Birth</h3>
+            <p>Pick the day you were born using the date field.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon"><i class="fa-solid fa-calendar-check"></i></div>
+            <span class="step-number">Step 2</span>
+            <h3>Select a reference date</h3>
+            <p>Use today's date or choose any past or future date.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="step-number">Step 3</span>
+            <h3>Click Calculate Age</h3>
+            <p>See your exact age, statistics and next birthday instantly.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section section-alt" id="faq">
+      <div class="container narrow">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Quick answers to common questions.</p>
+
+        <details class="faq-item">
+          <summary>How does an Age Calculator work?</summary>
+          <p>It compares your date of birth with a reference date and counts the completed years, then the completed
+            months, then the remaining days, using the real calendar.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I calculate my exact age?</summary>
+          <p>Enter your date of birth, keep today's date as the reference date, and press Calculate Age. You will see
+            your age in years, months and days.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between years, months, and days?</summary>
+          <p>Years are the full birthdays you have completed. Months are the full months since your last birthday. Days
+            are what remains after that.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does this calculator support leap years?</summary>
+          <p>Yes. Leap years are handled correctly, including February 29 birthdays. You can choose February 28 or March
+            1 as the birthday in non-leap years.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I calculate my age on a past date?</summary>
+          <p>Yes. Choose any past date in the "Calculate Age As Of" field, as long as it is not earlier than your birth
+            date.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I calculate my future age?</summary>
+          <p>Yes. Select a future date to see how old you will be on that day.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my personal information stored?</summary>
+          <p>No. Everything is calculated in your browser. Your date of birth is never sent to a server or saved.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate is this Age Calculator?</summary>
+          <p>It uses date-only calendar calculations with real month lengths and leap years, so it avoids timezone and
+            rounding errors.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT / PRIVACY ============ -->
+    <section class="section" id="about">
+      <div class="container two-col about-grid">
+        <div class="info-card">
+          <h3><i class="fa-solid fa-circle-question"></i> About Us</h3>
+          <p>Age Calculator is a free, simple tool that gives you an accurate age based on the real calendar. It is
+            built with HTML, CSS and JavaScript and works fully inside your browser.</p>
+        </div>
+        <div class="info-card" id="privacy">
+          <h3><i class="fa-solid fa-lock"></i> Privacy Policy</h3>
+          <p>We do not collect, upload or store your date of birth or any personal data. There is no login, no
+            registration and no tracking cookies.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section section-alt" id="contact">
+      <div class="container narrow center">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-sub">About the Developer
+
+          Md Rohan Aktar Molla
+
+          Web Developer | Graphic Designer
+
+          Hello! I'm Rohan, a self-taught web developer passionate about creating simple, useful, and user-friendly
+          websites.
+
+          I work with HTML, CSS, and JavaScript to turn ideas into practical digital solutions. I enjoy learning new
+          technologies and building projects that make everyday tasks easier.
+
+          My Goal: To become a skilled software developer and create meaningful digital experiences.
+
+          Developer Information
+
+          - Name: Md Rohan Aktar Molla
+          - Role: Web Developer & Graphic Designer
+          - Technologies: HTML, CSS, JavaScript
+          - Location: North 24 parganas, West Bengal, India
+
+          Designed & Developed by Rohan.</p>
+        <a class="btn btn-primary" href="mailto:mollarohan525@gmail.com"><i class="fa-solid fa-envelope"></i>
+          mollarohan525@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#home" class="logo logo-light">
+          <span class="logo-icon"><i class="fa-solid fa-cake-candles"></i></span>
+          <span class="logo-text">Age Calculator</span>
+        </a>
+        <p class="footer-desc">A fast, accurate and private tool to calculate your exact age and next birthday.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="#about">About Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Age Calculator. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="calculator.js    "></script>
+</body>
+
+</html>
